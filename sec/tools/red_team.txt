@@ -1,0 +1,142 @@
+
+=> Active Directory (AD)
+
+- Active Directory (AD) is Microsoft’s directory service used to manage users, computers, groups, policies, and permissions in a Windows domain network.
+- Think of it as the central brain of a corporate network.
+
+It allows organizations to:
+- Authenticate & authorize users
+- Control access to resources
+- Apply security policies
+- Manage thousands of systems centrally
+- Windows Server hosts the Active Directory service.
+
+Active Directory Domain Services (AD DS)
+- This is the main service of AD.
+- It provides:
+    - Centralized authentication
+    - User & computer management
+    - Group Policy
+    - Access control
+    - Directory database
+- Everything in AD DS is stored in the NTDS.dit database.
+- Active Directory Components
+    - Domain
+        - A domain is a logical group of: Users. Computers. Servers, Policies
+        - Example: company.local
+        - Domains are the fundamental building blocks in AD.
+    - Domain Controller (DC)
+        - A server that runs AD DS.
+        - DC stores and manages:
+            - User accountsPasswords
+            - Authentication (Kerberos)
+            - Policies
+        - If DC is down -> users cannot log in.
+    - Forest
+        - A forest contains multiple domains under one umbrella.
+        - It is the top-level AD structure.
+        - Example: company.local, india.company.local, europe.company.local
+        - All domains in a forest trust each other.
+    - Tree
+        - A group of domains organized in a hierarchy.
+    - Organizational Unit (OU)
+        - Container used to organize objects.
+        - Example OUs: Users, Computers, IT Dept, Finance Dept
+        - GPOs are applied to OUs.
+    - Objects
+        - Everything inside AD is an object.
+        - Types: User, Group, Computer, Printer, Service Account
+    - Groups
+        - Two types of groups:
+            - Security groups: Used to assign permissions.
+            - Distribution groups: Used for emails (Exchange).
+    - Group Policy Objects (GPOs)
+        - Rules and settings applied to users and computers.
+        - Examples of GPO controls:
+            - Disable USB
+            - Set password policies
+            - Disable CMD/PowerShell
+            - Install software
+            - Firewall rules
+        - Applied to Domains or OUs.
+
+AD Authentication Methods
+- Kerberos Authentication
+    - Default & most secure.
+    - Uses:
+        - TGT (Ticket Granting Ticket)
+        - Service Tickets
+    - Key terms:
+        - KDC - Key Distribution Center
+        - AS-REQ / AS-REP
+        - TGS-REQ / TGS-REP
+- NTLM Authentication
+    - Older, less secure.
+    - Used when:
+        - Kerberos fails
+        - Workgroup environment
+        - Legacy apps
+
+AD Infrastructure Terms
+- DNS -> AD heavily depends on DNS
+- Sites -> Used for replication control
+- Subnets -> Define network boundaries
+- AD Replication -> DCs synchronize data
+- SYSVOL folder -> Stores GPOs, scripts
+
+Common Active Directory Attacks (Red Team)
+- Kerberoasting: Stealing service account tickets and cracking their password offline.
+- AS-REP Roasting: Targeting accounts with no Kerberos preauthentication.
+- Pass-the-Hash (PtH): Using NTLM hash to authenticate without knowing the password.
+- Pass-the-Ticket (PtT): Using Kerberos tickets to impersonate users.
+- Golden Ticket Attack: Using the KRBTGT hash to generate fake TGTs (full domain compromise).
+- Silver Ticket Attack: Forging service tickets (access to specific services).
+- DCSync: Mimicking domain controller replication to steal:
+    - NTLM hashes
+    - KRBTGT hash
+    - Passwords
+- Lateral Movement: Moving from one system to another.
+    - Tools: PsExec, WinRM, SMB, RDP
+- Privilege Escalation:
+    - Techniques:
+        - Unconstrained delegation
+        - Vulnerable GPOs
+        - Misconfigured OUs
+        - Weak ACL permissions
+
+AD Ports/Services & Attacks
+- Kerberos (88) -> Pass the ticket, Kerberoasting
+- RPC (135) -> Lateral movement, RCE via DCOM
+- NetBIOS (139) -> Null session, Recon
+- LDAP (389) -> Enum of AD objects, users, policies
+- SMB (445) -> EternalBlue, SMB Relay attacks, Credential theft
+- LDAPS (636) -> AD Certificate Service Exploitation
+
+Recon Tools
+- SMB -> smbclient, smbmap, crackmapexec, nmap --script=smb-enum-shares, enum4linux/ng
+- LDAP -> ldapsearch
+- RPC -> rpcclient, enum4linux/ng
+- Kerberos -> kerbrute
+
+Tools Used with Active Directory
+- For administrators:
+    - AD Users and Computers
+    - GPMC (Group Policy Management Console)
+    - DNS Manager
+    - ADSI Edit
+    - PowerShell
+- For security / red teaming:
+    - BloodHound
+    - SharpHound
+    - Mimikatz
+    - Impacket
+    - CrackMapExec
+    - PingCastle
+    - PowerSploit
+
+-----
+
+Nessus
+OpenVAS
+Blood Hound
+Maltego

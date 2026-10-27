@@ -52,5 +52,6 @@ Offensive Security
 Low-level / Specialist
 - Reverse Engineering
 - Malware Analysis
+- Binary Analysis
 - Obfuscation / Hidden Techniques
 - Digital Forensics
