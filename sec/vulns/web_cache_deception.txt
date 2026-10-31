@@ -1,4 +1,0 @@
-
-=> Web Cache Deception
-
-PII in Static files in server in non-existant path/file
