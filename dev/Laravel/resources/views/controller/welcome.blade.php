@@ -1,1 +1,0 @@
-<h2>Welcome View</h2>
